@@ -18,7 +18,7 @@ import { ConfigModule } from '@nestjs/config';
       password: "TheBestPassword",
       database: process.env.name,
       entities: [],
-      autoLoadEntities:true,
+      autoLoadEntities:true ,
       synchronize: true,}
   ),EmployeesModule, ProductsModule],
   controllers: [AppController],
