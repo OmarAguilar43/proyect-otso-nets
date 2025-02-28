@@ -5,6 +5,7 @@ import {v4 as uuid} from 'uuid'
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import { loadESLint } from 'eslint';
 
 @Injectable()
 export class ProductsService {
@@ -14,36 +15,20 @@ export class ProductsService {
   ){
 
   }
-  private products:CreateProductDto[]=[
-    {
-      productId:uuid(),
-      productName:'Sabritas normal',
-      price:23,
-      countSeal:5,
-      provider:uuid()
-    },
-    {
-      productId:uuid(),
-      productName:'Koka',
-      price:28,
-      countSeal:3,
-      provider:uuid()
-    },
-    {
-      productId:uuid(),
-      productName:'Aguita gay',
-      price:10,
-      countSeal:9,
-      provider:uuid()
-    }
-  ]
+
   create(createProductDto: CreateProductDto) {
     const product = this.productRepository.save(createProductDto)
     return product 
   }
 
   findAll() {
-    return this.productRepository.find()
+    return this.productRepository.find({
+      loadEagerRelations:true,
+      relations:{
+        provider:true
+      }
+
+    })
   }
 
   findOne(productId: string) {
@@ -57,10 +42,10 @@ export class ProductsService {
   }
 
   findByProvider(provider: string){
-    const found = this.products.filter((founded)=>founded.provider === provider)
-    if(found.length === 0 ) throw new NotFoundException()
-    return found
-   
+    // const found = this.products.filter((founded)=>founded.provider === provider)
+    // if(found.length === 0 ) throw new NotFoundException()
+    // return found
+   return "ok"
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
