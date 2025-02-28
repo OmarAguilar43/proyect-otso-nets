@@ -3,63 +3,52 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import {v4 as uuid} from 'uuid'
 import { NotFoundError } from 'rxjs';
+import { Employee } from './entities/employee.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EmployeesService {
+  constructor(
+    @InjectRepository(Employee) 
+        private employeeRepository:Repository<Employee>
+  ){
 
-  private  employees:CreateEmployeeDto[] = [{
-    id:uuid(),
-    name:'Alberto',
-    lastName:"casares",
-    phoneNumber:'7736363'
-  },
-  {
-    id:uuid(),
-    name:'Jose',
-    lastName:"valladares",
-    phoneNumber:'32323232'
   }
-]
-
-  create(createEmployeeDto: CreateEmployeeDto) {
-    createEmployeeDto.id = uuid()
-    this.employees.push(createEmployeeDto)
-    return createEmployeeDto
+  
+  async create(createEmployeeDto: CreateEmployeeDto) {
+    const employee = await this.employeeRepository.save(createEmployeeDto)
+    return employee
   }
 
   findAll() {
     //retornar todos
-    
-    return this.employees
+    return this.employeeRepository
   }
 
   findOne(id: string) {
-    
-    const employee = this.employees.filter((employee)=>employee.id===id)[0]
-    if(!employee)throw new NotFoundException()
-    return employee
+  
+    const found = this.employeeRepository.findOneBy({id})
+    return found
   }
 
-  update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
-    let employeeToUpdate = this.findOne(id)
-    employeeToUpdate = {
-      ...employeeToUpdate,
-      ...updateEmployeeDto,
-    }
-    
-    this.employees=this.employees.map((employee)=>{
-      if(employee.id === id){
-          employee = employeeToUpdate
-      }
-      return employee
-    })
+  async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
+    const employeeToUpdate = await this.employeeRepository.preload({
+      id:id,
+      ...updateEmployeeDto
+  })
+    if(!employeeToUpdate)throw new NotFoundException()
+      this.employeeRepository.save(employeeToUpdate)
     return employeeToUpdate
   }
 
-  remove(id: string) {
-    this.findOne(id)
-     this.employees = this.employees.filter((employee)=>employee.id !== id)
-     return this.employees
+  async remove(id: string) {
+    this.employeeRepository.findOneBy({id})
+    await this.employeeRepository.delete(id)
+    return {
+      message:`el elemento ${id} a sido eliminado`
+    }
     
+     
   }
 }
