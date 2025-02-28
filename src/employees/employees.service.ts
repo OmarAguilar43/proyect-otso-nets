@@ -47,12 +47,12 @@ export class EmployeesService {
       ...updateEmployeeDto,
     }
     
-    // this.employees=this.employees.map((employee)=>{
-    //   if(employee.id === id){
-    //       employee = employeeToUpdate
-    //   }
-    //   return employee
-    // })
+    this.employees=this.employees.map((employee)=>{
+      if(employee.id === id){
+          employee = employeeToUpdate
+      }
+      return employee
+    })
     return employeeToUpdate
   }
 
