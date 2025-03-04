@@ -42,10 +42,13 @@ export class ProductsService {
   }
 
   findByProvider(provider: string){
-    // const found = this.products.filter((founded)=>founded.provider === provider)
-    // if(found.length === 0 ) throw new NotFoundException()
-    // return found
-   return "ok"
+   return this.productRepository.findBy(
+    {
+      provider:{
+        providerId:provider
+      }
+    }
+   )
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
