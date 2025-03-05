@@ -23,7 +23,13 @@ export class EmployeesService {
 
   findAll() {
     //retornar todos
-    return this.employeeRepository
+    return this.employeeRepository.find({
+      loadEagerRelations:true,
+      relations:{
+        //Employee:true
+      }
+
+    })
   }
 
   findOne(id: string) {

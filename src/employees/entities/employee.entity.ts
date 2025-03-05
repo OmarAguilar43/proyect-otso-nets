@@ -1,4 +1,4 @@
-import {Entity,Column,PrimaryGeneratedColumn, IsNull} from "typeorm"
+import {Entity,Column,PrimaryGeneratedColumn} from "typeorm"
 @Entity()
 export class Employee {
         @PrimaryGeneratedColumn("uuid")
@@ -11,4 +11,9 @@ export class Employee {
         phoneNumber:string;
         @Column('text')
         email:string
-}
+        @Column({
+                nullable:true,
+                type:'text',
+        })
+        photoUrl:string;
+}       
