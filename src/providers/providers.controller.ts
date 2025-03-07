@@ -6,8 +6,10 @@ import { NotFoundError } from 'rxjs';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UsarData } from 'src/auth/decorator/user.decorator';
 import { User } from 'src/auth/entities/user.entity';
+import { Roles } from 'src/auth/decorator/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
-
+@UseGuards(AuthGuard) 
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
@@ -17,8 +19,10 @@ export class ProvidersController {
     return this.providersService.create(createProviderDto);
   }
 
-  @UseGuards(AuthGuard)
+ 
 
+  @Roles(["Admin"])
+  @UseGuards(RolesGuard)
   @Get()
   findAll(@UsarData() user:User) {
     if(user.userRoles.includes("Employee"))throw new UnauthorizedException("No estas autorizado")
