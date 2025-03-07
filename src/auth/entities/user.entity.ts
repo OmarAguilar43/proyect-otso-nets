@@ -7,5 +7,9 @@ export class User{
     @Column('text')
     userEmail:string
     @Column('text')
-    userPaswword:string
+    userPassword:string
+    @Column('simple-array',{
+        default:'Employee'
+    })
+    userRoles:string[]
 }

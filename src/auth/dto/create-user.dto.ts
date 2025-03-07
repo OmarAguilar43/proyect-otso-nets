@@ -6,5 +6,5 @@ export class CreateUserDto extends User{
     userEmail: string;
     @IsString()
     @MinLength(8)
-    userPaswword: string;
+    userPassword: string;
 }
