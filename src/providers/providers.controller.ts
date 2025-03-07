@@ -8,8 +8,9 @@ import { UsarData } from 'src/auth/decorator/user.decorator';
 import { User } from 'src/auth/entities/user.entity';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Auth } from 'src/auth/decorator/auth.decorator';
 
-@UseGuards(AuthGuard) 
+
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
@@ -21,8 +22,7 @@ export class ProvidersController {
 
  
 
-  @Roles(["Admin"])
-  @UseGuards(RolesGuard)
+  @Auth('Admin')
   @Get()
   findAll(@UsarData() user:User) {
     if(user.userRoles.includes("Employee"))throw new UnauthorizedException("No estas autorizado")
