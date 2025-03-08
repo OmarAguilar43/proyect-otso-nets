@@ -6,8 +6,7 @@ import { NotFoundError } from 'rxjs';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UsarData } from 'src/auth/decorator/user.decorator';
 import { User } from 'src/auth/entities/user.entity';
-import { Roles } from 'src/auth/decorator/roles.decorator';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+
 import { Auth } from 'src/auth/decorator/auth.decorator';
 
 
