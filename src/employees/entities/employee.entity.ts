@@ -4,20 +4,22 @@ import { User } from "src/auth/entities/user.entity";
 @Entity()
 export class Employee {
         @PrimaryGeneratedColumn("uuid")
-        id:string;
+        employeeId:string;
         @Column("text")
-        name:string;
+        employeeName:string;
         @Column('text')
-        lastName:string;
+        EmployeeLastName:string;
         @Column("text")
-        phoneNumber:string;
-        @Column('text')
-        email:string
+        EmployeePhoneNumber:string;
+        @Column('text',{
+                unique:true
+        })
+        employeeEmail:string
         @Column({
                 nullable:true,
                 type:'text',
         })
-        photoUrl:string;
+        employeePhoto:string;
 
         @ManyToOne(()=>Location,(location)=>location.employees)
         @JoinColumn({

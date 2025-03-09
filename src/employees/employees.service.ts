@@ -32,15 +32,15 @@ export class EmployeesService {
     })
   }
 
-  findOne(id: string) {
+  findOne(employeeId: string) {
   
-    const found = this.employeeRepository.findOneBy({id})
+    const found = this.employeeRepository.findOneBy({employeeId})
     return found
   }
 
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
     const employeeToUpdate = await this.employeeRepository.preload({
-      id:id,
+      employeeId:id,
       ...updateEmployeeDto
   })
     if(!employeeToUpdate)throw new NotFoundException()
@@ -48,11 +48,11 @@ export class EmployeesService {
     return employeeToUpdate
   }
 
-  async remove(id: string) {
-    this.employeeRepository.findOneBy({id})
-    await this.employeeRepository.delete(id)
+  async remove(employeeId: string) {
+    this.employeeRepository.findOneBy({employeeId})
+    await this.employeeRepository.delete(employeeId)
     return {
-      message:`el elemento ${id} a sido eliminado`
+      message:`el elemento ${employeeId} a sido eliminado`
     }
     
      

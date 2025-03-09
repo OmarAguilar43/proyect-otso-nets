@@ -12,7 +12,9 @@ export class Manager {
     managerSalary:number
     @Column('text')
     managerEmail:string
-    @Column('text')
+    @Column('text',{
+        unique:true
+    })
     managerPhoneNumber:string
 
     @OneToOne(()=>Location)

@@ -1,6 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateAuthDto } from './dto/update-user.dto';
+import {  UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -44,5 +44,17 @@ export class AuthService {
         payload
       )
       return token
+  }
+
+  async updateUser(userEmail:string, updateUserDto:UpdateUserDto){
+   
+
+    const newUserData =await this.userRepository.preload({
+      userEmail,
+      ...updateUserDto
+    })
+    if(!newUserData)throw new NotFoundException
+    this.userRepository.save(newUserData)
+    return newUserData
   }
 }
