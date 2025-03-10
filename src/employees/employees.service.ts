@@ -32,6 +32,14 @@ export class EmployeesService {
     })
   }
 
+  findByLocation(id:number){
+    const located = this.employeeRepository.findOneBy({
+      location:{
+        locationId:id
+      }
+    })
+  }
+
   findOne(employeeId: string) {
   
     const found = this.employeeRepository.findOneBy({employeeId})
